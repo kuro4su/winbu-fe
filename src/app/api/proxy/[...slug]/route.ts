@@ -2,6 +2,12 @@ import { NextResponse } from 'next/server';
 
 const EXTERNAL_API_URL = 'https://winbu-scrape.vercel.app/api';
 
+// Helper function to extract src from iframe string
+const extractSrcFromIframe = (iframeString: string): string | null => {
+  const match = iframeString.match(/src="([^"]+)"/);
+  return match ? match[1] : null;
+};
+
 export async function GET(
   request: Request,
   { params }: { params: { slug: string[] } }
@@ -22,8 +28,20 @@ export async function GET(
       return NextResponse.json({ message: `Error from external API: ${apiResponse.statusText}` }, { status: apiResponse.status });
     }
 
-    const data = await apiResponse.json();
-    return NextResponse.json(data);
+    const jsonResponse = await apiResponse.json();
+
+    // Check if data is an iframe string
+    if (slug.startsWith('server/') && typeof jsonResponse.data === 'string' && jsonResponse.data.includes('<iframe')) {
+      const src = extractSrcFromIframe(jsonResponse.data);
+      if (src) {
+        // Return in the expected format
+        return NextResponse.json({ data: { embed_url: src } });
+      } else {
+         return NextResponse.json({ message: 'Could not extract embed URL from iframe string' }, { status: 500 });
+      }
+    }
+
+    return NextResponse.json(jsonResponse);
 
   } catch (error) {
     console.error('Proxy API Error:', error);

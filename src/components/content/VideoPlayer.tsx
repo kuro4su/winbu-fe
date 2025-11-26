@@ -31,18 +31,27 @@ export function VideoPlayer({ streamOptions }: VideoPlayerProps) {
         if (url.startsWith('//')) {
           url = 'https:' + url;
         }
-        setEmbedUrl(url);
+        
+        // Basic URL validation
+        try {
+          new URL(url);
+          setEmbedUrl(url);
+        } catch (e) {
+          throw new Error('Invalid embed URL received.');
+        }
+
       } else {
         throw new Error('Embed URL not found.');
       }
     } catch (e) {
-      setError('Failed to load video from this server. Please try another one.');
+      const errorMessage = e instanceof Error ? e.message : 'An unknown error occurred.';
+      setError(`Failed to load video. ${errorMessage}`);
       console.error(e);
     } finally {
       setIsLoading(false);
     }
   };
-
+  
   const serverCounts = useMemo(() => {
     const counts: Record<string, number> = {};
     streamOptions.forEach(option => {
