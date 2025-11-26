@@ -92,7 +92,6 @@ export function VideoPlayer({ streamOptions }: VideoPlayerProps) {
               allowFullScreen
               title="Video Player"
               className="h-full w-full rounded-md"
-              sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"
             ></iframe>
           ) : (
             <div className="text-center text-muted-foreground">
