@@ -26,7 +26,12 @@ export function VideoPlayer({ streamOptions }: VideoPlayerProps) {
     try {
       const serverData = await getServerUrl(option.data_post, option.data_nume, option.data_type);
       if (serverData?.embed_url) {
-        setEmbedUrl(serverData.embed_url);
+        let url = serverData.embed_url;
+        // The scraper might return a relative URL, so we prepend the origin if needed.
+        if (url.startsWith('//')) {
+          url = 'https:' + url;
+        }
+        setEmbedUrl(url);
       } else {
         throw new Error('Embed URL not found.');
       }
@@ -74,10 +79,11 @@ export function VideoPlayer({ streamOptions }: VideoPlayerProps) {
           {embedUrl ? (
             <iframe
               src={embedUrl}
-              allow="autoplay; encrypted-media"
+              allow="autoplay; encrypted-media; picture-in-picture"
               allowFullScreen
               title="Video Player"
               className="h-full w-full rounded-md"
+              sandbox="allow-forms allow-scripts allow-same-origin"
             ></iframe>
           ) : (
             <div className="text-center text-muted-foreground">
