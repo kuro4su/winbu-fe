@@ -1,12 +1,11 @@
 import type { HomeData, AnimeDetail, SeriesDetail, FilmDetail, EpisodeDetail, ServerData } from './types';
 
-// In a real app, you would set this based on your environment
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://winbu-scrape.vercel.app';
+// The external API is now called from our server-side proxy
+const API_BASE_URL = '/api/proxy';
 
 async function fetchAPI<T>(path: string): Promise<T | null> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api${path}`, {
-      // Using cache: 'no-store' to simulate real-time scraping as per docs
+    const res = await fetch(`${API_BASE_URL}${path}`, {
       cache: 'no-store', 
     });
     if (!res.ok) {
