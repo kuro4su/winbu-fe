@@ -1,3 +1,89 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "anime-1",
+      "imageUrl": "https://images.unsplash.com/photo-1578632749014-ca77efd052eb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhbmltZSUyMGFjdGlvbnxlbnwwfHx8fDE3NjQwODQxNDh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "anime action"
+    },
+    {
+      "id": "anime-2",
+      "imageUrl": "https://images.unsplash.com/photo-1744175381310-ebdeaf4fabbf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxmYW50YXN5JTIwYW5pbWV8ZW58MHx8fHwxNzY0MTIwMjY3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fantasy anime"
+    },
+    {
+      "id": "anime-3",
+      "imageUrl": "https://images.unsplash.com/photo-1687985826611-80b714011d0b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxzY2ktZmklMjBzcGFjZXxlbnwwfHx8fDE3NjQwNjgxNjB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "sci-fi space"
+    },
+    {
+      "id": "anime-4",
+      "imageUrl": "https://images.unsplash.com/photo-1747763643822-a6ad873c3478?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxyb21hbmNlJTIwYW5pbWV8ZW58MHx8fHwxNzY0MDQ1NDI5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "romance anime"
+    },
+    {
+      "id": "anime-5",
+      "imageUrl": "https://images.unsplash.com/photo-1715313062981-26d9adc179f9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxzbGljZSUyMG9mJTIwbGlmZXxlbnwwfHx8fDE3NjQxMjAyNjd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "slice of life"
+    },
+    {
+      "id": "anime-6",
+      "imageUrl": "https://images.unsplash.com/photo-1634796255717-660f93d7ca50?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhZHZlbnR1cmUlMjBhbmltZXxlbnwwfHx8fDE3NjQxMjAyNjh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "adventure anime"
+    },
+    {
+      "id": "film-1",
+      "imageUrl": "https://images.unsplash.com/photo-1641549058491-8a3442385da0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bW92aWUlMjBwb3N0ZXJ8ZW58MHx8fHwxNzY0MDM4MjEzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "movie poster"
+    },
+    {
+      "id": "film-2",
+      "imageUrl": "https://images.unsplash.com/photo-1634830667377-655494cb449e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8dGhyaWxsZXIlMjBtb3ZpZXxlbnwwfHx8fDE3NjQxMjAyNjd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "thriller movie"
+    },
+    {
+      "id": "film-3",
+      "imageUrl": "https://images.unsplash.com/photo-1603801970710-eeab5b673faa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjb21lZHklMjBwb3N0ZXJ8ZW58MHx8fHwxNzY0MDU3OTM4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "comedy poster"
+    },
+    {
+      "id": "film-4",
+      "imageUrl": "https://images.unsplash.com/photo-1647962982511-f120db3d63c8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxkcmFtYSUyMG1vdmllfGVufDB8fHx8MTc2NDA0OTkwNnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "drama movie"
+    },
+    {
+      "id": "series-1",
+      "imageUrl": "https://images.unsplash.com/photo-1602743297108-4c9061884285?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx0diUyMHNob3d8ZW58MHx8fHwxNzY0MDE1MjgyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "tv show"
+    },
+    {
+      "id": "series-2",
+      "imageUrl": "https://images.unsplash.com/photo-1762440696326-466aae7430ea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxrb3JlYW4lMjBkcmFtYXxlbnwwfHx8fDE3NjQxMjAyNjd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "korean drama"
+    },
+    {
+      "id": "series-3",
+      "imageUrl": "https://images.unsplash.com/photo-1710171454800-a1ab850a4668?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjaGluZXNlJTIwZHJhbWF8ZW58MHx8fHwxNzY0MTIwMjY3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "chinese drama"
+    },
+    {
+      "id": "series-4",
+      "imageUrl": "https://images.unsplash.com/photo-1624125279186-5fb175476e80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx3ZXN0ZXJuJTIwc2VyaWVzfGVufDB8fHx8MTc2NDEyMDI2N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "western series"
+    },
+    {
+      "id": "recommendation-1",
+      "imageUrl": "https://images.unsplash.com/photo-1755756383664-af3cf523242b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhbmltZSUyMHJlY29tbWVuZGF0aW9ufGVufDB8fHx8MTc2NDEyMDI2N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "anime recommendation"
+    },
+    {
+      "id": "recommendation-2",
+      "imageUrl": "https://images.unsplash.com/photo-1717903775083-8ad2a38483a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmaWxtJTIwcmVjb21tZW5kYXRpb258ZW58MHx8fHwxNzY0MTIwMjY3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "film recommendation"
+    },
+    {
+      "id": "recommendation-3",
+      "imageUrl": "https://images.unsplash.com/photo-1640628188830-5f0e52f13f17?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzZXJpZXMlMjByZWNvbW1lbmRhdGlvbnxlbnwwfHx8fDE3NjQxMjAyNjd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "series recommendation"
+    }
+  ]
 }
