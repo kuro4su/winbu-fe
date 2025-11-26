@@ -15,12 +15,12 @@ export default async function Home() {
   }
 
   const sections = [
-    { title: 'Top 10 Anime', data: homeData.top10_anime, type: 'anime' },
-    { title: 'Latest Anime Episodes', data: homeData.latest_anime, type: 'anime' },
-    { title: 'Top 10 Films', data: homeData.top10_film, type: 'film' },
-    { title: 'Latest Films', data: homeData.latest_film, type: 'film' },
-    { title: 'From Around the World', data: homeData.jepang_korea_china_barat, type: 'series' },
-    { title: 'Latest TV Shows', data: homeData.tv_show, type: 'series' },
+    { title: 'Top 10 Anime', data: homeData.top10_anime, type: 'anime', moreLink: undefined },
+    { title: 'Latest Anime Episodes', data: homeData.latest_anime, type: 'anime', moreLink: '/latest-anime' },
+    { title: 'Top 10 Films', data: homeData.top10_film, type: 'film', moreLink: undefined },
+    { title: 'Latest Films', data: homeData.latest_film, type: 'film', moreLink: '/latest-films' },
+    { title: 'From Around the World', data: homeData.jepang_korea_china_barat, type: 'series', moreLink: '/around-the-world' },
+    { title: 'Latest TV Shows', data: homeData.tv_show, type: 'series', moreLink: '/tv-shows' },
   ];
 
   return (
@@ -31,6 +31,7 @@ export default async function Home() {
             key={section.title}
             title={section.title}
             items={section.data as ContentItem[]}
+            moreLink={section.moreLink}
           />
         )
       ))}

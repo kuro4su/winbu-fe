@@ -9,6 +9,10 @@ import { ContentCard } from '@/components/content/ContentCard';
 import { SynopsisSummary } from '@/components/content/SynopsisSummary';
 import { VideoPlayer } from '@/components/content/VideoPlayer';
 import type { ContentItem } from '@/lib/types';
+import { Download, HardDrive } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Button } from '@/components/ui/button';
+
 
 export default async function FilmDetailPage({ params }: { params: { id: string } }) {
   const film = await getFilmDetails(params.id);
@@ -63,6 +67,38 @@ export default async function FilmDetailPage({ params }: { params: { id: string 
             </div>
             
             <VideoPlayer streamOptions={film.stream_options} />
+
+            <Card>
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                          <Download />
+                          Download Links
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <Tabs defaultValue={film.downloads[0]?.resolution || '720p'} className="w-full">
+                          <TabsList className="grid w-full grid-cols-4">
+                            {film.downloads.map(res => (
+                               <TabsTrigger key={res.resolution} value={res.resolution}>{res.resolution}</TabsTrigger>
+                            ))}
+                          </TabsList>
+                          {film.downloads.map(res => (
+                            <TabsContent key={res.resolution} value={res.resolution} className="mt-4">
+                              <div className="space-y-2">
+                                {res.links.map(link => (
+                                  <a href={link.url} target="_blank" rel="noopener noreferrer" key={link.server}>
+                                    <Button variant="outline" className="w-full justify-start">
+                                      <HardDrive className="mr-2 h-4 w-4" />
+                                      {link.server}
+                                    </Button>
+                                  </a>
+                                ))}
+                              </div>
+                            </TabsContent>
+                          ))}
+                        </Tabs>
+                      </CardContent>
+                    </Card>
 
             <Card>
               <CardHeader>

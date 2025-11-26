@@ -20,7 +20,7 @@ export default async function EpisodePage({ params }: { params: { id: string } }
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
             {episode.title}
           </h1>
-          <p className="mt-2 text-muted-foreground">{episode.note}</p>
+          
         </div>
 
         <VideoPlayer streamOptions={episode.stream_options} />

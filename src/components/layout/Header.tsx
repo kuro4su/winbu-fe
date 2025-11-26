@@ -13,7 +13,31 @@ export function Header() {
           </span>
         </Link>
         <div className="flex flex-1 items-center justify-end space-x-4">
-          <nav className="flex items-center space-x-1">
+          <nav className="flex items-center space-x-4">
+            <Link
+              href="/latest-anime"
+              className="text-sm font-medium transition-colors hover:text-primary"
+            >
+              Latest Anime
+            </Link>
+            <Link
+              href="/latest-films"
+              className="text-sm font-medium transition-colors hover:text-primary"
+            >
+              Latest Films
+            </Link>
+            <Link
+              href="/around-the-world"
+              className="text-sm font-medium transition-colors hover:text-primary"
+            >
+              Around the World
+            </Link>
+            <Link
+              href="/tv-shows"
+              className="text-sm font-medium transition-colors hover:text-primary"
+            >
+              TV Shows
+            </Link>
             <ThemeToggle />
           </nav>
         </div>

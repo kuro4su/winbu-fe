@@ -20,6 +20,29 @@ export type HomeData = {
   tv_show: ContentItem[];
 };
 
+export type PaginationInfo = {
+  current_page: number;
+  total_pages: number;
+  prev_page: number | null;
+  next_page: number | null;
+};
+
+export type AnimeDonghuaData = {
+  latest_anime: ContentItem[];
+};
+
+export type FilmListData = {
+  latest_film: ContentItem[];
+};
+
+export type OthersListData = {
+  jepang_korea_china_barat: ContentItem[];
+};
+
+export type TVShowData = {
+  tv_show: ContentItem[];
+};
+
 export type Genre = {
   name: string;
   url: string;
@@ -59,7 +82,8 @@ export type FilmDetail = {
   title: string;
   image: string;
   synopsis: string;
-  stream_options: StreamOption[];
+  downloads: DownloadResolution[];
+  stream_options: Record<string, StreamOption[]>;
   info: {
     rating: string;
     genres: Genre[];
@@ -80,7 +104,7 @@ export type DownloadResolution = {
 export type EpisodeDetail = {
   title: string;
   downloads: DownloadResolution[];
-  stream_options: StreamOption[];
+  stream_options: Record<string, StreamOption[]>;
   note: string;
 };
 

@@ -6,9 +6,10 @@ import type { StreamOption } from '@/lib/types';
 import { getServerUrl } from '@/lib/api';
 import { Loader2, PlayCircle, Server as ServerIcon, AlertTriangle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface VideoPlayerProps {
-  streamOptions: StreamOption[];
+  streamOptions: Record<string, StreamOption[]>; // Changed to object with resolution keys
 }
 
 export function VideoPlayer({ streamOptions }: VideoPlayerProps) {
@@ -16,6 +17,19 @@ export function VideoPlayer({ streamOptions }: VideoPlayerProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedServerKey, setSelectedServerKey] = useState<string | null>(null);
+  const [selectedResolution, setSelectedResolution] = useState<string>('');
+
+  // Get available resolutions
+  const resolutions = useMemo(() => {
+    return Object.keys(streamOptions).filter(res => streamOptions[res].length > 0);
+  }, [streamOptions]);
+
+  // Set default resolution on mount
+  useMemo(() => {
+    if (resolutions.length > 0 && !selectedResolution) {
+      setSelectedResolution(resolutions[0]);
+    }
+  }, [resolutions, selectedResolution]);
 
   const handleServerClick = async (option: StreamOption, key: string) => {
     setIsLoading(true);
@@ -31,7 +45,7 @@ export function VideoPlayer({ streamOptions }: VideoPlayerProps) {
         if (url.startsWith('//')) {
           url = 'https:' + url;
         }
-        
+
         // Basic URL validation
         try {
           new URL(url);
@@ -51,19 +65,24 @@ export function VideoPlayer({ streamOptions }: VideoPlayerProps) {
       setIsLoading(false);
     }
   };
-  
-  const serverCounts = useMemo(() => {
-    const counts: Record<string, number> = {};
-    streamOptions.forEach(option => {
-      counts[option.server] = (counts[option.server] || 0) + 1;
-    });
-    return counts;
-  }, [streamOptions]);
 
+  // Get current resolution servers
+  const currentServers = useMemo(() => {
+    if (!selectedResolution || !streamOptions[selectedResolution]) return [];
+    return streamOptions[selectedResolution];
+  }, [selectedResolution, streamOptions]);
+
+  // Generate server display names for current resolution
   const serverDisplayNames = useMemo(() => {
     const names: Record<string, string> = {};
+    const serverCounts: Record<string, number> = {};
+
+    currentServers.forEach(option => {
+      serverCounts[option.server] = (serverCounts[option.server] || 0) + 1;
+    });
+
     const counters: Record<string, number> = {};
-    streamOptions.forEach((option, index) => {
+    currentServers.forEach(option => {
       const key = `${option.server}-${option.data_nume}`;
       if (serverCounts[option.server] > 1) {
         counters[option.server] = (counters[option.server] || 0) + 1;
@@ -73,7 +92,23 @@ export function VideoPlayer({ streamOptions }: VideoPlayerProps) {
       }
     });
     return names;
-  }, [streamOptions, serverCounts]);
+  }, [currentServers]);
+
+  if (resolutions.length === 0) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <PlayCircle />
+            Stream Video
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground">No stream options available.</p>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card>
@@ -86,13 +121,26 @@ export function VideoPlayer({ streamOptions }: VideoPlayerProps) {
       <CardContent className="space-y-4">
         <div className="aspect-video w-full rounded-lg bg-card-foreground/5 flex items-center justify-center">
           {embedUrl ? (
-            <iframe
-              src={embedUrl}
-              allow="autoplay; encrypted-media; picture-in-picture"
-              allowFullScreen
-              title="Video Player"
-              className="h-full w-full rounded-md"
-            ></iframe>
+            // Check if the URL is a direct video file (ends with .mp4, .webm, etc) or contains /dl/
+            embedUrl.match(/\.(mp4|webm|ogg)$/i) || embedUrl.includes('/dl/') ? (
+              <video
+                controls
+                autoPlay
+                className="h-full w-full rounded-md"
+                title="Video Player"
+              >
+                <source src={embedUrl} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            ) : (
+              <iframe
+                src={embedUrl}
+                allow="autoplay; encrypted-media; picture-in-picture"
+                allowFullScreen
+                title="Video Player"
+                className="h-full w-full rounded-md"
+              ></iframe>
+            )
           ) : (
             <div className="text-center text-muted-foreground">
               {isLoading ? (
@@ -105,35 +153,48 @@ export function VideoPlayer({ streamOptions }: VideoPlayerProps) {
               ) : (
                 <div className='flex flex-col items-center gap-2'>
                   <PlayCircle className="h-12 w-12" />
-                  <p>Select a server to begin streaming.</p>
+                  <p>Select a resolution and server to begin streaming.</p>
                 </div>
               )}
             </div>
           )}
         </div>
-        <div className="space-y-2">
-            <p className="font-semibold text-sm">Available Servers:</p>
-            <div className="flex flex-wrap gap-2">
-            {streamOptions.map((option) => {
-                const key = `${option.server}-${option.data_nume}`;
-                return (
-                    <Button
+
+        {/* Resolution Tabs */}
+        <Tabs value={selectedResolution} onValueChange={setSelectedResolution}>
+          <TabsList className="grid w-full" style={{ gridTemplateColumns: `repeat(${resolutions.length}, 1fr)` }}>
+            {resolutions.map(res => (
+              <TabsTrigger key={res} value={res}>{res}</TabsTrigger>
+            ))}
+          </TabsList>
+
+          {resolutions.map(res => (
+            <TabsContent key={res} value={res} className="mt-4">
+              <div className="space-y-2">
+                <div className="flex flex-wrap gap-2">
+                  {streamOptions[res].map((option) => {
+                    const key = `${option.server}-${option.data_nume}`;
+                    return (
+                      <Button
                         key={key}
                         onClick={() => handleServerClick(option, key)}
                         disabled={isLoading && selectedServerKey === key}
                         variant={selectedServerKey === key ? 'default' : 'secondary'}
-                    >
-                    {isLoading && selectedServerKey === key ? (
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    ) : (
-                        <ServerIcon className="mr-2 h-4 w-4" />
-                    )}
-                    {serverDisplayNames[key]}
-                    </Button>
-                )
-            })}
-            </div>
-        </div>
+                      >
+                        {isLoading && selectedServerKey === key ? (
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        ) : (
+                          <ServerIcon className="mr-2 h-4 w-4" />
+                        )}
+                        {serverDisplayNames[key]}
+                      </Button>
+                    );
+                  })}
+                </div>
+              </div>
+            </TabsContent>
+          ))}
+        </Tabs>
       </CardContent>
     </Card>
   );
