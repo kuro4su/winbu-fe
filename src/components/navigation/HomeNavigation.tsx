@@ -16,17 +16,24 @@ export function HomeNavigation() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [canGoUp, setCanGoUp] = useState(false);
     const [canGoDown, setCanGoDown] = useState(true);
+    const [availableSections, setAvailableSections] = useState<string[]>([]);
 
     useEffect(() => {
+        // Filter sections that actually exist in the DOM
+        const existingSections = sections.filter(id => document.getElementById(id));
+        setAvailableSections(existingSections);
+
+        if (existingSections.length === 0) return;
+
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
-                        const index = sections.indexOf(entry.target.id);
+                        const index = existingSections.indexOf(entry.target.id);
                         if (index !== -1) {
                             setCurrentIndex(index);
                             setCanGoUp(index > 0);
-                            setCanGoDown(index < sections.length - 1);
+                            setCanGoDown(index < existingSections.length - 1);
                         }
                     }
                 });
@@ -34,7 +41,7 @@ export function HomeNavigation() {
             { threshold: 0.2, rootMargin: '-100px 0px -100px 0px' }
         );
 
-        sections.forEach((id) => {
+        existingSections.forEach((id) => {
             const element = document.getElementById(id);
             if (element) observer.observe(element);
         });
@@ -43,10 +50,12 @@ export function HomeNavigation() {
     }, []);
 
     const scrollToSection = (direction: 'up' | 'down') => {
+        if (availableSections.length === 0) return;
+
         const targetIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
 
-        if (targetIndex >= 0 && targetIndex < sections.length) {
-            const element = document.getElementById(sections[targetIndex]);
+        if (targetIndex >= 0 && targetIndex < availableSections.length) {
+            const element = document.getElementById(availableSections[targetIndex]);
             if (element) {
                 const yOffset = -80;
                 const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
@@ -54,6 +63,8 @@ export function HomeNavigation() {
             }
         }
     };
+
+    if (availableSections.length === 0) return null;
 
     return (
         <div className="fixed right-4 bottom-20 md:right-6 md:bottom-6 z-50 flex flex-col gap-2">
@@ -77,7 +88,7 @@ export function HomeNavigation() {
             {/* Section Indicator */}
             <div className="brutal-border bg-background px-3 py-2 text-center">
                 <span className="font-black text-xs">
-                    {currentIndex + 1}/{sections.length}
+                    {currentIndex + 1}/{availableSections.length}
                 </span>
             </div>
 
