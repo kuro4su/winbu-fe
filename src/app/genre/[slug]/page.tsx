@@ -1,27 +1,53 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getTVShows } from '@/lib/api';
+import { getGenreContent } from '@/lib/api';
 import { ContentGrid } from '@/components/content/ContentGrid';
 import { SkeletonGrid } from '@/components/content/SkeletonCard';
 import { PageNavigation } from '@/components/navigation/PageNavigation';
 import Link from 'next/link';
-import { Tv } from 'lucide-react';
+import { Film } from 'lucide-react';
 
-export default async function TVShowsPage({
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+    const genreName = params.slug
+        .split('-')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+
+    return {
+        title: `${genreName} Anime & Films - Bellonime`,
+        description: `Browse ${genreName} anime, films, and series on Bellonime.`,
+        openGraph: {
+            title: `${genreName} Anime & Films - Bellonime`,
+            description: `Browse ${genreName} anime, films, and series on Bellonime.`,
+        },
+    };
+}
+
+export default async function GenrePage({
+    params,
     searchParams
 }: {
-    searchParams: { page?: string }
+    params: { slug: string };
+    searchParams: { page?: string };
 }) {
-    const page = parseInt(searchParams.page || '1');
-    const result = await getTVShows(page);
+    const page = parseInt(searchParams.page || '1', 10) || 1;
+    const result = await getGenreContent(params.slug, page);
 
-    if (!result) {
+    if (!result || !result.data) {
         notFound();
     }
+
+    // Format genre name for display
+    const genreName = params.slug
+        .split('-')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
 
     return (
         <>
             <PageNavigation />
-            <div className="container mx-auto px-4 py-8 space-y-8">
+
+            <div className="container mx-auto px-4 py-6 md:py-8 space-y-8">
                 {/* Brutal Header */}
                 <div className="brutal-border brutal-shadow-lg bg-background p-6 relative overflow-hidden">
                     {/* Brutal Background Elements */}
@@ -29,9 +55,9 @@ export default async function TVShowsPage({
                     <div className="absolute bottom-0 left-0 w-24 h-24 bg-secondary opacity-10 rotate-45" />
 
                     <div className="relative">
-                        <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-2">
-                            <Tv className="inline h-8 w-8 mr-2 mb-1" />
-                            LATEST TV SHOWS
+                        <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight lg:text-5xl mb-2">
+                            <Film className="inline h-8 w-8 mr-2 mb-1" />
+                            GENRE: {genreName.toUpperCase()}
                         </h1>
                         <div className="flex items-center gap-2 flex-wrap">
                             <span className="text-muted-foreground font-bold">
@@ -43,7 +69,7 @@ export default async function TVShowsPage({
 
                 {/* Content Grid */}
                 <ContentGrid
-                    title="📺 TV SHOW TERBARU"
+                    title={`🎬 ${genreName.toUpperCase()}`}
                     items={result.data}
                 />
 
@@ -54,7 +80,7 @@ export default async function TVShowsPage({
                             {/* Previous Page */}
                             {result.pagination.prev_page ? (
                                 <Link
-                                    href={`/tv-shows?page=${result.pagination.prev_page}`}
+                                    href={`/genre/${params.slug}?page=${result.pagination.prev_page}`}
                                     className="brutal-border brutal-shadow-sm bg-card px-4 py-2 font-black uppercase hover:brutal-shadow transition-all"
                                 >
                                     ← PREV
@@ -68,7 +94,7 @@ export default async function TVShowsPage({
                             {/* Page Numbers */}
                             <div className="flex items-center gap-2">
                                 {Array.from({ length: result.pagination.total_pages }, (_, i) => i + 1)
-                                    .filter(pageNum => {
+                                    .filter((pageNum) => {
                                         return (
                                             pageNum === 1 ||
                                             pageNum === result.pagination.total_pages ||
@@ -81,16 +107,15 @@ export default async function TVShowsPage({
 
                                         return (
                                             <div key={pageNum} className="flex items-center gap-2">
-                                                {showEllipsis && (
-                                                    <span className="font-black text-muted-foreground">...</span>
-                                                )}
+                                                {showEllipsis && <span className="font-black text-muted-foreground">...</span>}
+
                                                 {pageNum === result.pagination.current_page ? (
                                                     <div className="brutal-border bg-primary text-primary-foreground px-4 py-2 font-black min-w-[3rem] text-center">
                                                         {pageNum}
                                                     </div>
                                                 ) : (
                                                     <Link
-                                                        href={`/tv-shows?page=${pageNum}`}
+                                                        href={`/genre/${params.slug}?page=${pageNum}`}
                                                         className="brutal-border brutal-shadow-sm bg-card px-4 py-2 font-black hover:brutal-shadow transition-all min-w-[3rem] text-center"
                                                     >
                                                         {pageNum}
@@ -104,7 +129,7 @@ export default async function TVShowsPage({
                             {/* Next Page */}
                             {result.pagination.next_page ? (
                                 <Link
-                                    href={`/tv-shows?page=${result.pagination.next_page}`}
+                                    href={`/genre/${params.slug}?page=${result.pagination.next_page}`}
                                     className="brutal-border brutal-shadow-sm bg-card px-4 py-2 font-black uppercase hover:brutal-shadow transition-all"
                                 >
                                     NEXT →

@@ -8,7 +8,6 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { ContentCard } from './ContentCard';
-import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import type { ContentItem } from '@/lib/types';
 import Link from 'next/link';
@@ -22,37 +21,48 @@ interface ContentCarouselProps {
 
 export function ContentCarousel({ title, items, moreLink }: ContentCarouselProps) {
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle>{title}</CardTitle>
+    <section className="brutal-border brutal-shadow bg-background p-6">
+      {/* Header */}
+      <div className="mb-6">
+        <div className="flex items-center justify-between gap-4 mb-3">
+          <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tighter">
+            {title}
+          </h2>
           {moreLink && (
             <Link href={moreLink}>
-              <Button variant="ghost" size="sm">
-                More
-                <ChevronRight className="h-4 w-4 ml-1" />
+              <Button
+                variant="ghost"
+                className="brutal-border brutal-shadow-sm bg-card font-black uppercase text-xs hover:translate-x-[-1px] hover:translate-y-[-1px] transition-transform px-4 py-2"
+              >
+                MORE
+                <ChevronRight className="h-3 w-3 ml-1" />
               </Button>
             </Link>
           )}
         </div>
-      </CardHeader>
+        <div className="h-1 w-20 bg-primary" />
+      </div>
+
+      {/* Carousel */}
       <Carousel
         opts={{
           align: 'start',
           loop: true,
         }}
-        className="w-full px-12"
+        className="w-full"
       >
-        <CarouselContent>
+        <CarouselContent className="-ml-4">
           {items.map((item, index) => (
-            <CarouselItem key={`${item.id}-${index}`} className="basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6">
+            <CarouselItem key={`${item.id}-${index}`} className="pl-4 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6">
               <ContentCard item={item} />
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="ml-0" />
-        <CarouselNext className="mr-0" />
+
+        {/* Brutal Navigation */}
+        <CarouselPrevious className="left-0 brutal-border bg-primary text-primary-foreground hover:translate-x-[-2px] hover:translate-y-[-2px] transition-transform" />
+        <CarouselNext className="right-0 brutal-border bg-primary text-primary-foreground hover:translate-x-[-2px] hover:translate-y-[-2px] transition-transform" />
       </Carousel>
-    </Card>
+    </section>
   );
 }

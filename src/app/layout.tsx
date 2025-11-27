@@ -6,8 +6,25 @@ import { Footer } from '@/components/layout/Footer';
 import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
-  title: 'Winbu Explorer',
-  description: 'Explore anime, series, and films from Winbu.tv',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:9002'),
+  title: {
+    default: 'Bellonime - Brutal Anime Explorer',
+    template: '%s | Bellonime'
+  },
+  description: 'Bold, raw, and unfiltered anime, series, and films streaming platform',
+  openGraph: {
+    title: 'Bellonime - Brutal Anime Explorer',
+    description: 'Bold, raw, and unfiltered anime, series, and films streaming platform',
+    url: '/',
+    siteName: 'Bellonime',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Bellonime - Brutal Anime Explorer',
+    description: 'Bold, raw, and unfiltered anime, series, and films streaming platform',
+  },
 };
 
 export default function RootLayout({
@@ -20,7 +37,7 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased">
         <ThemeProvider
