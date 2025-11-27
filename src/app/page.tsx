@@ -88,7 +88,7 @@ export default function Home() {
             <div className="relative container mx-auto px-4 py-12 space-y-12">
                 {/* Top 10 Anime - Carousel */}
                 {homeData.top10_anime && homeData.top10_anime.length > 0 && (
-                    <section id="top-anime">
+                    <section id="top-anime" className="scroll-mt-24">
                         <ContentCarousel
                             title="⚡ TOP 10 ANIME"
                             items={homeData.top10_anime as ContentItem[]}
@@ -98,7 +98,7 @@ export default function Home() {
 
                 {/* Latest Anime - Vertical Grid */}
                 {homeData.latest_anime && homeData.latest_anime.length > 0 && (
-                    <section id="latest-anime">
+                    <section id="latest-anime" className="scroll-mt-24">
                         <ContentGrid
                             title="🆕 LATEST ANIME EPISODES"
                             items={homeData.latest_anime as ContentItem[]}
@@ -109,7 +109,7 @@ export default function Home() {
 
                 {/* Top 10 Films - Carousel */}
                 {homeData.top10_film && homeData.top10_film.length > 0 && (
-                    <section id="top-films">
+                    <section id="top-films" className="scroll-mt-24">
                         <ContentCarousel
                             title="🎬 TOP 10 FILMS"
                             items={homeData.top10_film as ContentItem[]}
@@ -119,7 +119,7 @@ export default function Home() {
 
                 {/* Latest Films - Vertical Grid */}
                 {homeData.latest_film && homeData.latest_film.length > 0 && (
-                    <section id="latest-films">
+                    <section id="latest-films" className="scroll-mt-24">
                         <ContentGrid
                             title="🎥 FILMS"
                             items={homeData.latest_film as ContentItem[]}
@@ -130,7 +130,7 @@ export default function Home() {
 
                 {/* Around the World - Vertical Grid */}
                 {homeData.jepang_korea_china_barat && homeData.jepang_korea_china_barat.length > 0 && (
-                    <section id="around-world">
+                    <section id="around-world" className="scroll-mt-24">
                         <ContentGrid
                             title="🌍 KOREA CHINA JEPANG BARAT"
                             items={homeData.jepang_korea_china_barat as ContentItem[]}
@@ -141,7 +141,7 @@ export default function Home() {
 
                 {/* Latest TV Shows - Vertical Grid */}
                 {homeData.tv_show && homeData.tv_show.length > 0 && (
-                    <section id="tv-shows">
+                    <section id="tv-shows" className="scroll-mt-24">
                         <ContentGrid
                             title="📺 TV SHOWS"
                             items={homeData.tv_show as ContentItem[]}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { ChevronLeft, Home } from 'lucide-react';
 
 export function PageNavigation() {
@@ -16,13 +17,13 @@ export function PageNavigation() {
                 <ChevronLeft className="h-6 w-6" />
             </button>
 
-            <button
-                onClick={() => router.push('/')}
-                className="brutal-border brutal-shadow-sm bg-background p-4 md:p-3 hover:brutal-shadow hover:bg-primary hover:text-primary-foreground hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
+            <Link
+                href="/"
+                className="brutal-border brutal-shadow-sm bg-background p-4 md:p-3 hover:brutal-shadow hover:bg-primary hover:text-primary-foreground hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all flex items-center justify-center"
                 aria-label="Go home"
             >
                 <Home className="h-6 w-6" />
-            </button>
+            </Link>
         </div>
     );
 }

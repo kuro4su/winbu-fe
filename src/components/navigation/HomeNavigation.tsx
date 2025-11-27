@@ -19,16 +19,22 @@ export function HomeNavigation() {
     const [availableSections, setAvailableSections] = useState<string[]>([]);
 
     useEffect(() => {
-        // Filter sections that actually exist in the DOM
-        const existingSections = sections.filter(id => document.getElementById(id));
-        setAvailableSections(existingSections);
+        const updateSections = () => {
+            const existingSections = sections.filter(id => document.getElementById(id));
+            setAvailableSections(existingSections);
+            return existingSections;
+        };
 
-        if (existingSections.length === 0) return;
+        // Initial check
+        let existingSections = updateSections();
 
+        // Observer for scrolling
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
+                        // Re-check existing sections in case they changed
+                        existingSections = updateSections();
                         const index = existingSections.indexOf(entry.target.id);
                         if (index !== -1) {
                             setCurrentIndex(index);
@@ -38,15 +44,35 @@ export function HomeNavigation() {
                     }
                 });
             },
-            { threshold: 0.2, rootMargin: '-100px 0px -100px 0px' }
+            // Root margin creates a "trigger line" near the top of the screen
+            // -80px: Ignore the top 80px (header height + buffer)
+            // -80%: Ignore the bottom 80% of the screen
+            // This ensures we only detect what's currently at the top
+            { threshold: 0, rootMargin: '-80px 0px -80% 0px' }
         );
 
+        // Watch for DOM changes (in case sections load late)
+        const mutationObserver = new MutationObserver(() => {
+            const newSections = updateSections();
+            // Re-observe elements if they appeared
+            newSections.forEach((id) => {
+                const element = document.getElementById(id);
+                if (element) observer.observe(element);
+            });
+        });
+
+        mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+        // Initial observation
         existingSections.forEach((id) => {
             const element = document.getElementById(id);
             if (element) observer.observe(element);
         });
 
-        return () => observer.disconnect();
+        return () => {
+            observer.disconnect();
+            mutationObserver.disconnect();
+        };
     }, []);
 
     const scrollToSection = (direction: 'up' | 'down') => {
@@ -57,9 +83,7 @@ export function HomeNavigation() {
         if (targetIndex >= 0 && targetIndex < availableSections.length) {
             const element = document.getElementById(availableSections[targetIndex]);
             if (element) {
-                const yOffset = -80;
-                const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                window.scrollTo({ top: y, behavior: 'smooth' });
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
     };
